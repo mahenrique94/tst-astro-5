@@ -23,7 +23,7 @@ Inside this project, you'll see the following folders and files:
 └── package.json
 ```
 
-## 🧞 Commands
+## Commands
 All commands are run from the root of the project, from a terminal:
 
 | Command                   | Action                                           |
