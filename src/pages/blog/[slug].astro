@@ -1,0 +1,23 @@
+---
+import { getCollection, getEntry, render } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+
+const { slug } = Astro.params;
+const record = await getEntry("blog", slug);
+const { Content } = await render(record!);
+
+if (!record || record.data.draft) {
+  return Astro.redirect("/404");
+}
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blog");
+  return posts.map((p) => ({
+    params: { slug: p.id },
+  }));
+}
+---
+
+<Layout title={record.data.title}>
+  <Content />
+</Layout>

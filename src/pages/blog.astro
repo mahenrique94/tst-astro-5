@@ -1,0 +1,27 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "../layouts/Layout.astro";
+
+const posts = await getCollection("blog", ({ data }) => !data.draft);
+
+const extractPostId = (path?: string) => {
+  return parseInt(path?.split("/").at(-1)?.split("-").at(0) || "0");
+};
+---
+
+<Layout title="Blog">
+  <h1>Blog</h1>
+  <ul>
+    {
+      posts
+        .toSorted(
+          (p1, p2) => extractPostId(p2.filePath) - extractPostId(p1.filePath)
+        )
+        .map((post) => (
+          <li>
+            <a href={`/blog/${post.id}`}>{post.data.title}</a>
+          </li>
+        ))
+    }
+  </ul>
+</Layout>
